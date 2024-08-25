@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Character Counter</title>
+    <!-- Link to Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #e0e0e0;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        textarea {
+            width: calc(100% - 20px);
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            border-color: #007bff;
+        }
+        
+        .counter {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .counter.warning {
+            color: #ff3d00;
+            font-weight: 600;
+        }
+        
+        .warning-message {
+            display: none;
+            color: #ff3d00;
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        
+        .warning-message.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <textarea id="messageArea" maxlength="200" placeholder="Type your message here..."></textarea>
+        <div id="charCounter" class="counter">0 / 200 characters</div>
+        <p id="charWarning" class="warning-message">You have reached the maximum character limit!</p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const messageArea = document.getElementById('messageArea');
+            const charCounter = document.getElementById('charCounter');
+            const charWarning = document.getElementById('charWarning');
+            const maxChars = 200;
+
+            function updateCounter() {
+                let currentLength = messageArea.value.length;
+
+                if (currentLength > maxChars) {
+                    messageArea.value = messageArea.value.slice(0, maxChars);
+                    currentLength = maxChars;
+                }
+
+                charCounter.textContent = `${currentLength} / ${maxChars} characters`;
+
+                if (currentLength === maxChars) {
+                    charCounter.classList.add('warning');
+                    charWarning.classList.add('visible');
+                } else {
+                    charCounter.classList.remove('warning');
+                    charWarning.classList.remove('visible');
+                }
+            }
+
+            messageArea.addEventListener('input', updateCounter);
+            updateCounter(); // Initialize counter on page load
+        });
+    </script>
+</body>
+</html>
